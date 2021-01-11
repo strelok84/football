@@ -2,24 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const apiKey="a3b3685ba5fd4c8685be0540c85652f2"
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      Hello world
     </div>
   );
 }
-
 export default App;
