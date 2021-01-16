@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
 
-class Table extends React.Component {
+class Teams extends React.Component {
     state = {
         isLoading: true,
         data: []
     }
 
     async componentDidMount() {
-        const response = await fetch("https://api.football-data.org/v2/competitions", { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
+        const response = await fetch("http://api.football-data.org/v2/competitions/2021/teams", { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
         const data = await response.json()
         console.log(data)
         this.setState({
             isLoading: false,
-            data: data.competitions
+            data: data.teams
         })
     }
 
@@ -23,7 +23,7 @@ class Table extends React.Component {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Ligue</th>
+                        <th>Команда</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,27 +40,4 @@ class Table extends React.Component {
     }
 }
 
-export default Table
-
-/* export default props => (
-    <table className="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ligue</th>
-            </tr>
-        </thead>
-        <tbody>
-            { props.data.map(item =>(
-                <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td><a href="https://www.youtube.com/">{item.name}</a></td>
-                    <td>{item.area.name}</td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
-)
- */
-
-
+export default Teams

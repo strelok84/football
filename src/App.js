@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import Loader from "./components/Loader/Loader.js"
 import Table from "./components/Table/Table"
+import Teams from "./components/Teams/Teams"
+
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 const apiKey = "a3b3685ba5fd4c8685be0540c85652f2"
 class App extends Component {
 
-  state = {
+  /* state = {
     isLoading: true,
     data: [],
   }
@@ -16,19 +19,26 @@ class App extends Component {
     console.log(data)
     this.setState({
       isLoading: false,
-      data:data.competitions
+      data: data.competitions
     })
-  }
+  } */
   render() {
     return (
       <div className="container">
-        {
-        this.state.isLoading 
-        ? <Loader />
-        : <Table 
-        data={this.state.data}
-        />
-      }
+        <Switch>
+          {/* <Route path='/list' component={List} /> */}
+          <Route path='/teams' component={Teams} />
+          <Route exact path='/' component={Table} />
+          <Redirect to='/' />
+        </Switch>
+
+        {/* {
+          this.state.isLoading
+            ? <Loader />
+            : <Table
+              data={this.state.data}
+            />
+        } */}
       </div>
     );
   }
