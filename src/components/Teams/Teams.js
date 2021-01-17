@@ -30,7 +30,7 @@ class Teams extends React.Component {
                     {this.state.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
-                            <td><a href="https://www.youtube.com/">{item.name}</a></td>
+                            <td><a href="./teams">{item.name}</a></td>
                             <td>{item.area.name}</td>
                         </tr>
                     ))}

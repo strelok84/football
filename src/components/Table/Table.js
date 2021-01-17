@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class Table extends React.Component {
     state = {
         isLoading: true,
-        data: []
+        data: [],
+        id:0
     }
 
     async componentDidMount() {
@@ -15,6 +16,14 @@ class Table extends React.Component {
             isLoading: false,
             data: data.competitions
         })
+    }
+
+    HandleClick(e,id="Вася"){
+               
+        console.log(id)
+        e.preventDefault()
+        
+        //return this.render.return(<Redirect to="/teams" />)
     }
 
     render() {
@@ -30,7 +39,7 @@ class Table extends React.Component {
                     {this.state.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
-                            <td><a href="https://www.youtube.com/">{item.name}</a></td>
+                            <td><a href="./teams"  onClick={(e)=>this.HandleClick(e,item.id)}>{item.name}</a></td>
                             <td>{item.area.name}</td>
                         </tr>
                     ))}

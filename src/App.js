@@ -5,7 +5,7 @@ import Teams from "./components/Teams/Teams"
 
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-const apiKey = "a3b3685ba5fd4c8685be0540c85652f2"
+//const apiKey = "a3b3685ba5fd4c8685be0540c85652f2"
 class App extends Component {
 
   /* state = {
