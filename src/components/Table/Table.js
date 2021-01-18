@@ -5,7 +5,7 @@ class Table extends React.Component {
     state = {
         isLoading: true,
         data: [],
-        id:0
+        id: 0
     }
 
     async componentDidMount() {
@@ -18,15 +18,21 @@ class Table extends React.Component {
         })
     }
 
-    HandleClick(e,id="Вася"){
-               
+    HandleClick(e, id = "Вася") {
+
         console.log(id)
         e.preventDefault()
-        
-        //return this.render.return(<Redirect to="/teams" />)
+        this.setState({ id: id })
+        console.log(this.state.id)
+        this.props.history.push({
+            pathname: '/teams',
+
+            state: { id: id }
+        })
     }
 
     render() {
+        let freeLigues = [2001, 2017, 2021, 2003, 2002, 2015, 2019, 2014, 2016, 2013, 2000, 2018]
         return (
             <table className="table">
                 <thead>
@@ -39,7 +45,10 @@ class Table extends React.Component {
                     {this.state.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
-                            <td><a href="./teams"  onClick={(e)=>this.HandleClick(e,item.id)}>{item.name}</a></td>
+                            {freeLigues.includes(item.id)
+                                ? <td><a href="./teams" onClick={(e) => this.HandleClick(e, item.id)}>{item.name}</a></td>
+                                : <td>{item.name}</td>
+                            }
                             <td>{item.area.name}</td>
                         </tr>
                     ))}
@@ -51,25 +60,5 @@ class Table extends React.Component {
 
 export default Table
 
-/* export default props => (
-    <table className="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ligue</th>
-            </tr>
-        </thead>
-        <tbody>
-            { props.data.map(item =>(
-                <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td><a href="https://www.youtube.com/">{item.name}</a></td>
-                    <td>{item.area.name}</td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
-)
- */
 
 

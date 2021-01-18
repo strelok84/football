@@ -8,9 +8,9 @@ class Teams extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await fetch("http://api.football-data.org/v2/competitions/2021/teams", { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
+        const response = await fetch(`http://api.football-data.org/v2/competitions/${this.props.location.state.id}/teams`, { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
         const data = await response.json()
-        console.log(data)
+        console.log(this.props.location.state.id)
         this.setState({
             isLoading: false,
             data: data.teams
