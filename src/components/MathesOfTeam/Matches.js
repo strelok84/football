@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 
 
-class Teams extends React.Component {
+class Matches extends React.Component {
     state = {
         isLoading: true,
         data: []
     }
 
     async componentDidMount() {
-        const response = await fetch(`http://api.football-data.org/v2/competitions/${this.props.location.state.id}/teams`, { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
+        const response = await fetch(`https://api.football-data.org/v2/teams/86/matches?status=SCHEDULED
+        `, { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
         const data = await response.json()
         console.log(data)
         this.setState({
             isLoading: false,
-            data: data.teams
+            data: data.matches
         })
     }
 
@@ -30,8 +31,8 @@ class Teams extends React.Component {
                     {this.state.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
-                            <td><a href="./teams">{item.name}</a></td>
-                            <td>{item.area.name}</td>
+                    <td><a href="./teams">{item.homeTeam.name}-{item.awayTeam.name}</a></td>
+                            <td>{item.utcDate}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -40,4 +41,4 @@ class Teams extends React.Component {
     }
 }
 
-export default Teams
+export default Matches
