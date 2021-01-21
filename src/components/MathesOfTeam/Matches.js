@@ -8,7 +8,7 @@ class Matches extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(`https://api.football-data.org/v2/teams/86/matches?status=SCHEDULED
+        const response = await fetch(`https://api.football-data.org/v2/teams/${this.props.location.state.id}/matches?status=SCHEDULED
         `, { headers: { 'X-Auth-Token': "a3b3685ba5fd4c8685be0540c85652f2" } })
         const data = await response.json()
         console.log(data)

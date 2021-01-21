@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 class Teams extends React.Component {
     state = {
@@ -17,6 +17,19 @@ class Teams extends React.Component {
         })
     }
 
+    HandleClick(e, id = "Вася") {
+
+        console.log(id)
+        e.preventDefault()
+        this.setState({ id: id })
+        console.log(this.state.id)
+        this.props.history.push({
+            pathname: '/matches',
+
+            state: { id: id }
+        })
+    }
+
     render() {
         return (
             <table className="table">
@@ -30,7 +43,7 @@ class Teams extends React.Component {
                     {this.state.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
-                            <td><a href="./teams">{item.name}</a></td>
+                            <td><a href="./teams" onClick={(e) => this.HandleClick(e, item.id)}>{item.name}</a></td>
                             <td>{item.area.name}</td>
                         </tr>
                     ))}
