@@ -3,6 +3,7 @@ import Loader from "./components/Loader/Loader.js"
 import Table from "./components/Table/Table"
 import Teams from "./components/Teams/Teams"
 import Matches from "./components/MathesOfTeam/Matches"
+import MatchesOfLigue from "./components/MatchesOfLigue/MatchesOfLigue"
 
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -27,7 +28,8 @@ class App extends Component {
     return (
       <div className="container">
         <Switch>
-          {<Route path='/matches' component={Matches} /> }
+          <Route path="/matchesOfLigue" component={MatchesOfLigue} />
+          <Route path='/matches' component={Matches} />
           <Route path='/teams' component={Teams} />
           <Route exact path='/' component={Table} />
           <Redirect to='/' />
