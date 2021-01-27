@@ -33,7 +33,7 @@ class MatchesOfLigue extends React.Component {
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>
-                <a href="./teams">
+                <a href="./matchesOfLigue">
                   {item.homeTeam.name}-{item.awayTeam.name}
                 </a>
               </td>

@@ -17,16 +17,15 @@ class Teams extends React.Component {
         })
     }
 
-    HandleClick(e, id = "Вася") {
+    HandleClick(e, matchid) {
 
-        console.log(id)
+        console.log(matchid)
         e.preventDefault()
-        this.setState({ id: id })
-        console.log(this.state.id)
+        this.setState({ matchid: matchid })
+        console.log(this.state.matchid)
         this.props.history.push({
             pathname: '/matches',
-
-            state: { id: id }
+            state: { matchid: matchid }
         })
     }
 

@@ -18,16 +18,23 @@ class Table extends React.Component {
         })
     }
 
-    HandleClick(e, id = "Вася") {
-
+    HandleClick(e, id) {
         console.log(id)
         e.preventDefault()
         this.setState({ id: id })
         console.log(this.state.id)
         this.props.history.push({
             pathname: '/teams',
-
             state: { id: id }
+        })
+    }
+
+    MatchesOfLigue(e,ligueId){
+        e.preventDefault()
+        this.setState({ligueId:ligueId})
+        this.props.history.push({
+            pathname: '/matchesOfLigue',
+            state: { ligueId: ligueId }
         })
     }
 
@@ -38,7 +45,8 @@ class Table extends React.Component {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Ligue</th>
+                        <th>Команды лиги</th>
+                        <th>Календарь лиги</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +54,7 @@ class Table extends React.Component {
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             {freeLigues.includes(item.id)
-                                ? <td><a href="./teams" onClick={(e) => this.HandleClick(e, item.id)}>{item.name}</a></td>
+                                ? <td><a href="./matchesOfLigue" onClick={(e) => this.MatchesOfLigue(e, item.id)}>{item.name}</a></td>
                                 : <td>{item.name}</td>
                             }
                             <td>{item.area.name}</td>
