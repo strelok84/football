@@ -31,8 +31,8 @@ class App extends Component {
           <Route path="/matchesOfLigue" component={MatchesOfLigue} />
           <Route path='/matches' component={Matches} />
           <Route path='/teams' component={Teams} />
-          <Route exact path='/' component={Table} />
-          <Redirect to='/' />
+          <Route exact path='/football' component={Table} />
+          <Redirect to='/football' />
         </Switch>
 
         {/* {
