@@ -20,24 +20,25 @@ class MatchesOfLigue extends React.Component {
   }
 
   render() {
+    
     return (
       <table className="table">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Команда</th>
+            <th>Дата матча по времени {Intl.DateTimeFormat().resolvedOptions().timeZone}</th>
           </tr>
         </thead>
         <tbody>
           {this.state.data.map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              
               <td>
                 <a href="./matchesOfLigue">
-                  {item.homeTeam.name}-{item.awayTeam.name}
+                  {item.homeTeam.name} - {item.awayTeam.name}
                 </a>
               </td>
-              <td>{item.utcDate}</td>
+              <td>{new Date(item.utcDate).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

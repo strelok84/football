@@ -26,18 +26,16 @@ class Matches extends React.Component {
         <thead>
           <tr>
             <th>Матч</th>
-            <th>Дата матча</th>
+            <th>Дата матча по времени {Intl.DateTimeFormat().resolvedOptions().timeZone}</th>
           </tr>
         </thead>
         <tbody>
           {this.state.data.map((item) => (
             <tr key={item.id}>
               <td>
-                <a href="./matches">
-                  {item.homeTeam.name}-{item.awayTeam.name}
-                </a>
+                {item.homeTeam.name} - {item.awayTeam.name}
               </td>
-              <td>{item.utcDate}</td>
+              <td>{new Date(item.utcDate).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
