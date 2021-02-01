@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
 
 class Table extends React.Component {
   state = {
     isLoading: true,
     data: [],
     id: 0,
+    year:""
   };
 
   async componentDidMount() {
@@ -41,6 +41,10 @@ class Table extends React.Component {
     });
   }
 
+  HandleChange(e) {
+    this.setState({value: e.target.value});
+  }
+
   render() {
     let freeLigues = [
       2001,
@@ -56,7 +60,15 @@ class Table extends React.Component {
       2000,
       2018,
     ];
+    let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
+      <div>
+      <form>
+        <label>Год
+          <input type="text" value={this.state.year} onChange={this.HandleChange}></input>
+        </label>
+        <input type="submit" value="Отправить" />
+      </form>
       <table className="table">
         <thead>
           <tr>
@@ -68,11 +80,7 @@ class Table extends React.Component {
         <tbody>
           {this.state.data.map((item) => (
             <tr key={item.id}>
-              {freeLigues.includes(item.id) ? (
-                <td>{item.name}</td>
-              ) : (
-                <td className="hiddenTd">{item.name}</td>
-              )}
+              {freeLigues.includes(item.id) ? <td>{item.name}</td> : hidden}
               {freeLigues.includes(item.id) ? (
                 <td>
                   <a
@@ -83,7 +91,7 @@ class Table extends React.Component {
                   </a>
                 </td>
               ) : (
-                <td className="hiddenTd">Недоступно</td>
+                hidden
               )}
               {freeLigues.includes(item.id) ? (
                 <td>
@@ -95,12 +103,13 @@ class Table extends React.Component {
                   </a>
                 </td>
               ) : (
-                <td className="hiddenTd">{item.name}</td>
+                hidden
               )}
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     );
   }
 }
