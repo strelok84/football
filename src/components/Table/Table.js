@@ -1,16 +1,21 @@
 import React from "react";
 
 class Table extends React.Component {
-  state = {
+  constructor(props){
+  super(props)
+  this.state = {
     isLoading: true,
     data: [],
     id: 0,
     year:""
   };
+  this.HandleChange = this.HandleChange.bind(this)
+  this.HandleSubmit=this.HandleSubmit.bind(this)
+}
 
-  async componentDidMount() {
+  async componentDidMount(year) {
     const response = await fetch(
-      "https://api.football-data.org/v2/competitions",
+      `https://api.football-data.org/v2/competitions/${year?year:""}`,
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
     );
     const data = await response.json();
@@ -42,7 +47,12 @@ class Table extends React.Component {
   }
 
   HandleChange(e) {
-    this.setState({value: e.target.value});
+    this.setState({year: e.target.value});
+  }
+
+  HandleSubmit(e){
+    e.preventDefault()
+    this.componentDidMount(this.state.year)
   }
 
   render() {
@@ -63,11 +73,13 @@ class Table extends React.Component {
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
       <div>
-      <form>
+      <form onSubmit={this.HandleSubmit}>
+        <div className="form-group">
         <label>Год
-          <input type="text" value={this.state.year} onChange={this.HandleChange}></input>
+          <input type="text" year={this.state.year} onChange={this.HandleChange}></input>
         </label>
         <input type="submit" value="Отправить" />
+        </div>
       </form>
       <table className="table">
         <thead>

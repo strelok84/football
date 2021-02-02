@@ -1,7 +1,7 @@
 {
   "name": "football",
   "version": "0.2.0",
-  "private": true,
+  "private": false,
   "homepage": "https://strelok84.github.io/football/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.8",
