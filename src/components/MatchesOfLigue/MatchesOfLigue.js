@@ -8,7 +8,7 @@ class MatchesOfLigue extends React.Component {
 
   async componentDidMount() {
     const response = await fetch(
-      "https://api.football-data.org/v2/competitions/2013/matches",
+      `https://api.football-data.org/v2/competitions/${this.props.location.state.ligueId}/matches`,
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
     );
     const data = await response.json();
