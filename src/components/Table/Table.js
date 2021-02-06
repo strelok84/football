@@ -1,16 +1,20 @@
 import React from "react";
 
 class Table extends React.Component {
-  
-  state = {
-    isLoading: true,
-    data: [],
-    id: 0,
-    year:""
-  };
-  
-
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      data: [],
+      id: 0,
+      year: "",
+      searchName: "",
+    };
+    this.searchBar = this.searchBar.bind(this);
+    this.searchName = this.searchName.bind(this);
+    this.handleClick=this.handleClick.bind(this);
+    this.matchesOfLigue=this.matchesOfLigue.bind(this);
+  }
   async componentDidMount(year) {
     const response = await fetch(
       `https://api.football-data.org/v2/competitions`,
@@ -24,7 +28,7 @@ class Table extends React.Component {
     });
   }
 
-  HandleClick(e, id) {
+  handleClick(e, id) {
     console.log(id);
     e.preventDefault();
     this.setState({ id: id });
@@ -35,7 +39,7 @@ class Table extends React.Component {
     });
   }
 
-  MatchesOfLigue(e, ligueId) {
+  matchesOfLigue(e, ligueId) {
     e.preventDefault();
     this.setState({ ligueId: ligueId });
     this.props.history.push({
@@ -43,9 +47,31 @@ class Table extends React.Component {
       state: { ligueId: ligueId },
     });
   }
+  
 
-  
-  
+  searchName(event) {
+    this.setState({ searchName: event.target.value });
+  }
+
+  searchBar(event) {
+    event.preventDefault();
+    let table = document.getElementById("table");
+    //alert(table.rows[1].cells[0].innerHTML)
+    for (let i = 1; i < table.rows.length; i++) {
+      for (let j = 0; j < table.rows[i].cells.length; j++) {
+        if (table.rows[i].cells[j].innerHTML === this.state.searchName) {
+          table.rows[i].cells[j].style.fontWeight = "bold";
+          table.rows[i].cells[j].style.backgroundColor = "grey";
+          table.rows[i].scrollIntoView();
+        } else {
+          table.rows[i].cells[j].style.fontWeight = "normal";
+          table.rows[i].cells[j].style.backgroundColor = "white";
+        }
+      }
+    } 
+    
+    //alert(this.state.data[0].name)
+  }
 
   render() {
     let freeLigues = [
@@ -64,48 +90,56 @@ class Table extends React.Component {
     ];
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
-      
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Название лиги</th>
-            <th>Команды лиги</th>
-            <th>Календарь лиги</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.data.map((item) => (
-            <tr key={item.id}>
-              {freeLigues.includes(item.id) ? <td>{item.name}</td> : hidden}
-              {freeLigues.includes(item.id) ? (
-                <td>
-                  <a
-                    href="./teams"
-                    onClick={(e) => this.HandleClick(e, item.id)}
-                  >
-                    Команды лиги
-                  </a>
-                </td>
-              ) : (
-                hidden
-              )}
-              {freeLigues.includes(item.id) ? (
-                <td>
-                  <a
-                    href="./matchesOfLigue"
-                    onClick={(e) => this.MatchesOfLigue(e, item.id)}
-                  >
-                    Календарь лиги
-                  </a>
-                </td>
-              ) : (
-                hidden
-              )}
+      <div>
+        <form onSubmit={this.searchBar}>
+          <input
+            type="search"
+            onChange={this.searchName}
+            placeholder="Название команды"
+          />
+          <input type="submit" value="Найти" />
+        </form>
+        <table className="table" id="table">
+          <thead>
+            <tr>
+              <th>Название лиги</th>
+              <th>Команды лиги</th>
+              <th>Календарь лиги</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-     
+          </thead>
+          <tbody>
+            {this.state.data.map((item) => (
+              <tr key={item.id}>
+                {freeLigues.includes(item.id) ? <td>{item.name}</td> : hidden}
+                {freeLigues.includes(item.id) ? (
+                  <td>
+                    <a
+                      href="./teams"
+                      onClick={(e) => this.handleClick(e, item.id)}
+                    >
+                      Команды лиги
+                    </a>
+                  </td>
+                ) : (
+                  hidden
+                )}
+                {freeLigues.includes(item.id) ? (
+                  <td>
+                    <a
+                      href="./matchesOfLigue"
+                      onClick={(e) => this.matchesOfLigue(e, item.id)}
+                    >
+                      Календарь лиги
+                    </a>
+                  </td>
+                ) : (
+                  hidden
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
