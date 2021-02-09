@@ -7,19 +7,18 @@ class Teams extends React.Component {
       isLoading: true,
       data: [],
       year: 0,
-      
-      
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.searchBar=this.searchBar.bind(this);
-    this.searchName=this.searchName.bind(this);
+    this.searchBar = this.searchBar.bind(this);
+    this.searchName = this.searchName.bind(this);
   }
 
   async componentDidMount(year) {
-    
     const response = await fetch(
-      `http://api.football-data.org/v2/competitions/${this.props.location.state.id}/teams?season=${year ? year : 2020}`,
+      `http://api.football-data.org/v2/competitions/${
+        this.props.location.state.id
+      }/teams?season=${year ? year : 2020}`,
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
     );
 
@@ -33,9 +32,13 @@ class Teams extends React.Component {
     } else {
       this.setState({
         data: [
-          { id: "Нет данных", name: "Нет данных", area: { name: "Нет данных" } },
-        ]
-      })
+          {
+            id: "Нет данных",
+            name: "Нет данных",
+            area: { name: "Нет данных" },
+          },
+        ],
+      });
     }
   }
 
@@ -57,28 +60,27 @@ class Teams extends React.Component {
     this.componentDidMount(this.state.year);
   }
 
-  searchName(event){
-   this.setState({searchName:event.target.value})
+  searchName(event) {
+    this.setState({ searchName: event.target.value });
   }
 
   searchBar(event) {
     event.preventDefault();
-    let table = document.getElementById("table")
+    let table = document.getElementById("table");
     //alert(table.rows[1].cells[0].innerHTML)
     for (let i = 1; i < table.rows.length; i++) {
-      for(let j=0;j<table.rows[i].cells.length;j++){
+      for (let j = 0; j < table.rows[i].cells.length; j++) {
         if (table.rows[i].cells[j].innerHTML === this.state.searchName) {
-          table.rows[i].cells[j].style.fontWeight="bold"
-          table.rows[i].cells[j].style.backgroundColor="grey"
-          table.rows[i].scrollIntoView()
-        }else{
-          table.rows[i].cells[j].style.fontWeight="normal"
-          table.rows[i].cells[j].style.backgroundColor="white"
+          table.rows[i].cells[j].style.fontWeight = "bold";
+          table.rows[i].cells[j].style.backgroundColor = "grey";
+          table.rows[i].scrollIntoView();
+        } else {
+          table.rows[i].cells[j].style.fontWeight = "normal";
+          table.rows[i].cells[j].style.backgroundColor = "white";
         }
       }
-      
-    }    
-    
+    }
+
     //alert(this.state.data[0].name)
   }
 
@@ -86,14 +88,19 @@ class Teams extends React.Component {
     return (
       <div>
         <form onSubmit={this.searchBar}>
-          <input type="search" onChange={this.searchName}/>
+          <input type="search" onChange={this.searchName} placeholder="Название команды"/>
           <input type="submit" value="Найти" />
         </form>
 
         <form onSubmit={this.handleSubmit}>
           <label>
             Год:
-            <input type="number" value={this.state.value} onChange={this.handleChange} placeholder="2020" />
+            <input
+              type="number"
+              value={this.state.value}
+              onChange={this.handleChange}
+              placeholder="2020"
+            />
           </label>
           <input type="submit" value="Отправить" />
         </form>
@@ -119,8 +126,8 @@ class Teams extends React.Component {
                       Календарь команды
                     </a>
                   ) : (
-                      "Нет данных"
-                    )}
+                    "Нет данных"
+                  )}
                 </td>
               </tr>
             ))}
