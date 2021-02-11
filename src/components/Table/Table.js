@@ -42,6 +42,7 @@ class Table extends React.Component {
   matchesOfLigue(e, ligueId) {
     e.preventDefault();
     this.setState({ ligueId: ligueId });
+    
     this.props.history.push({
       pathname: "/matchesOfLigue",
       state: { ligueId: ligueId },
