@@ -5,7 +5,7 @@ import Teams from "./components/Teams/Teams"
 import Matches from "./components/MathesOfTeam/Matches"
 import MatchesOfLigue from "./components/MatchesOfLigue/MatchesOfLigue"
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect,HashRouter } from 'react-router-dom';
 
 //const apiKey = "a3b3685ba5fd4c8685be0540c85652f2"
 class App extends Component {
@@ -27,13 +27,13 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Switch>
+        <HashRouter>
           <Route path="/matchesOfLigue" component={MatchesOfLigue} />
           <Route path='/matches' component={Matches} />
           <Route path='/teams' component={Teams} />
           <Route exact path='/football' component={Table} />
           <Redirect to='/football' />
-        </Switch>
+        </HashRouter>
 
         {/* {
           this.state.isLoading
