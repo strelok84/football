@@ -16,21 +16,21 @@ class Matches extends React.Component {
 
   async componentDidMount() {
     let response;
-
+    let matchid=localStorage.getItem("matchId")||this.props.location.state.matchId
     if (!this.state.dateFrom && !this.state.dateTo) {
       response = await fetch(
-        `https://api.football-data.org/v2/teams/${this.props.location.state.matchid}/matches?status=SCHEDULED`,
+        `https://api.football-data.org/v2/teams/${matchid}/matches?status=SCHEDULED`,
         { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
       );
     } else if ((!this.state.dateFrom && this.state.dateTo) || (this.state.dateFrom && !this.state.dateTo)) {
       alert("Нужно ввести обе даты")
       response = await fetch(
-        `https://api.football-data.org/v2/teams/${this.props.location.state.matchid}/matches?status=SCHEDULED`,
+        `https://api.football-data.org/v2/teams/${matchid}/matches?status=SCHEDULED`,
         { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
       );
     } else {
       response = await fetch(
-        `https://api.football-data.org/v2/teams/${this.props.location.state.matchid}/matches?dateTo=${this.state.dateTo}&dateFrom=${this.state.dateFrom}`,
+        `https://api.football-data.org/v2/teams/${matchid}/matches?dateTo=${this.state.dateTo}&dateFrom=${this.state.dateFrom}`,
         { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
       );
     }
@@ -64,22 +64,29 @@ class Matches extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.searchDate}>
+      <div className="container">
+        <form className="form-inline mt-3" onSubmit={this.searchDate}>
+          <label>
+            От:
           <input
+            className="form-control ml-1"
             type="date"
             onChange={this.setDateFrom}
-
+          
           />
-
+          </label>
         </form>
-        <form onSubmit={this.searchDate}>
+        <form className="form-inline mt-3 mb-3" onSubmit={this.searchDate}>
+        <label>
+          До:
           <input
+           className="form-control ml-1"
             type="date"
             onChange={this.setDateTo}
 
           />
-          <input type="submit" value="Найти" />
+          </label>
+          <input className="btn btn-primary ml-3" type="submit" value="Найти" />
         </form>
         <table className="table">
           <thead>

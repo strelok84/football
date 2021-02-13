@@ -4,7 +4,7 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+     
       data: [],
       id: 0,
       year: "",
@@ -12,8 +12,8 @@ class Table extends React.Component {
     };
     this.searchBar = this.searchBar.bind(this);
     this.searchName = this.searchName.bind(this);
-    this.handleClick=this.handleClick.bind(this);
-    this.matchesOfLigue=this.matchesOfLigue.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.matchesOfLigue = this.matchesOfLigue.bind(this);
   }
   async componentDidMount(year) {
     const response = await fetch(
@@ -31,7 +31,7 @@ class Table extends React.Component {
   handleClick(e, id) {
     console.log(id);
     e.preventDefault();
-    this.setState({ id: id });
+    localStorage.setItem("id", id)
     console.log(this.state.id);
     this.props.history.push({
       pathname: "/teams",
@@ -41,14 +41,14 @@ class Table extends React.Component {
 
   matchesOfLigue(e, ligueId) {
     e.preventDefault();
-    this.setState({ ligueId: ligueId });
-    
+
+    localStorage.setItem("ligueId", ligueId)
     this.props.history.push({
       pathname: "/matchesOfLigue",
       state: { ligueId: ligueId },
     });
   }
-  
+
 
   searchName(event) {
     this.setState({ searchName: event.target.value });
@@ -69,8 +69,8 @@ class Table extends React.Component {
           table.rows[i].cells[j].style.backgroundColor = "white";
         }
       }
-    } 
-    
+    }
+
     //alert(this.state.data[0].name)
   }
 
@@ -91,14 +91,15 @@ class Table extends React.Component {
     ];
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
-      <div>
-        <form onSubmit={this.searchBar}>
+      <div className="container">
+        <form className="form-inline mb-3 mt-3" onSubmit={this.searchBar}>
           <input
+            className="form-control"
             type="search"
             onChange={this.searchName}
             placeholder="Название команды"
           />
-          <input type="submit" value="Найти" />
+          <input type="submit" className="btn btn-primary ml-3" value="Найти" />
         </form>
         <table className="table" id="table">
           <thead>
@@ -122,8 +123,8 @@ class Table extends React.Component {
                     </a>
                   </td>
                 ) : (
-                  hidden
-                )}
+                    hidden
+                  )}
                 {freeLigues.includes(item.id) ? (
                   <td>
                     <a
@@ -134,8 +135,8 @@ class Table extends React.Component {
                     </a>
                   </td>
                 ) : (
-                  hidden
-                )}
+                    hidden
+                  )}
               </tr>
             ))}
           </tbody>

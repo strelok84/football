@@ -8,17 +8,16 @@ class Teams extends React.Component {
       data: [],
       year: 0,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.searchBar = this.searchBar.bind(this);
-    this.searchName = this.searchName.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.searchBar = this.searchBar.bind(this)
+    this.searchName = this.searchName.bind(this)
   }
 
   async componentDidMount(year) {
+    let id = localStorage.getItem("id") || this.props.location.state.id
     const response = await fetch(
-      `http://api.football-data.org/v2/competitions/${
-        this.props.location.state.id
-      }/teams?season=${year ? year : 2020}`,
+      `http://api.football-data.org/v2/competitions/${id}/teams?season=${year ? year : 2020}`,
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
     );
 
@@ -27,8 +26,7 @@ class Teams extends React.Component {
       this.setState({
         isLoading: false,
         data: data.teams,
-      });
-      console.log(data.teams);
+      })
     } else {
       this.setState({
         data: [
@@ -38,72 +36,82 @@ class Teams extends React.Component {
             area: { name: "Нет данных" },
           },
         ],
-      });
+      })
     }
   }
 
   handleClick(e, matchid) {
-    e.preventDefault();
-    this.setState({ matchid: matchid });
+    e.preventDefault()
+    localStorage.setItem("matchId", matchid)
     this.props.history.push({
       pathname: "/matches",
       state: { matchid: matchid },
-    });
+    })
   }
 
   handleChange(event) {
-    this.setState({ year: event.target.value });
+    this.setState({ year: event.target.value })
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.componentDidMount(this.state.year);
+    this.componentDidMount(this.state.year)
   }
 
   searchName(event) {
-    this.setState({ searchName: event.target.value });
+    this.setState({ searchName: event.target.value })
   }
 
   searchBar(event) {
     event.preventDefault();
-    let table = document.getElementById("table");
-    //alert(table.rows[1].cells[0].innerHTML)
+    let table = document.getElementById("table")
+
     for (let i = 1; i < table.rows.length; i++) {
       for (let j = 0; j < table.rows[i].cells.length; j++) {
         if (table.rows[i].cells[j].innerHTML === this.state.searchName) {
-          table.rows[i].cells[j].style.fontWeight = "bold";
-          table.rows[i].cells[j].style.backgroundColor = "grey";
-          table.rows[i].scrollIntoView();
+          table.rows[i].cells[j].style.fontWeight = "bold"
+          table.rows[i].cells[j].style.backgroundColor = "grey"
+          table.rows[i].scrollIntoView()
         } else {
-          table.rows[i].cells[j].style.fontWeight = "normal";
-          table.rows[i].cells[j].style.backgroundColor = "white";
+          table.rows[i].cells[j].style.fontWeight = "normal"
+          table.rows[i].cells[j].style.backgroundColor = "white"
         }
       }
     }
 
-    //alert(this.state.data[0].name)
+
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
+
         <form onSubmit={this.searchBar}>
-          <input type="search" onChange={this.searchName} placeholder="Название команды"/>
-          <input type="submit" value="Найти" />
+          <div className="form-group">
+            <label>
+              Название:
+            <input className="form-control" type="search" onChange={this.searchName} placeholder="Название команды" />
+            </label>
+            <input className="btn btn-primary ml-3" type="submit" value="Найти" />
+          </div>
         </form>
 
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Год:
+          <div className="form-group">
+            <label>
+              Год:
             <input
-              type="number"
-              value={this.state.value}
-              onChange={this.handleChange}
-              placeholder="2020"
-            />
-          </label>
-          <input type="submit" value="Отправить" />
+                className="form-control"
+                type="number"
+                value={this.state.value}
+                onChange={this.handleChange}
+                placeholder="2020"
+              />
+            </label>
+            <input className="btn btn-primary ml-3" type="submit" value="Найти" />
+          </div>
         </form>
+
         <table className="table" id="table">
           <thead>
             <tr>
@@ -126,8 +134,8 @@ class Teams extends React.Component {
                       Календарь команды
                     </a>
                   ) : (
-                    "Нет данных"
-                  )}
+                      "Нет данных"
+                    )}
                 </td>
               </tr>
             ))}
