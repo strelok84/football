@@ -104,7 +104,7 @@ class Matches extends React.Component {
 
             />
           </label>
-          <input className="btn btn-primary ml-3" type="submit" value="Найти" />
+          <input className="btn btn-primary m-3" type="submit" value="Найти" />
         </form>
         {this.state.isLoading ? <Loader /> :
           <table className="table">

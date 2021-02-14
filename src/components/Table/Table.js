@@ -112,14 +112,14 @@ class Table extends React.Component {
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
       <div className="container">
-        <form className="form-inline mb-3 mt-3" onSubmit={this.searchBar} >
+        <form className="form-inline m-3" onSubmit={this.searchBar} >
           <input
             className="form-control"
             type="search"
             onChange={this.searchName}
             placeholder="Название команды"
           />
-          <input type="submit" className="btn btn-primary ml-3" value="Найти" />
+          <input type="submit" className="btn btn-primary m-3" value="Найти" />
         </form>
         {/*  Лоадер крутится пока подгружаются данные. Ф-ия берет данные формирует таблицу. Поля не из бесплатных id скрываются */}
         {this.state.isLoading ? <Loader /> :

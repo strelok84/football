@@ -94,7 +94,7 @@ class MatchesOfLigue extends React.Component {
               type="date"
               onChange={this.setDateTo}
             />
-            <input className="btn btn-primary ml-3" type="submit" value="Найти" />
+            <input className="btn btn-primary m-3" type="submit" value="Найти" />
           </label>
         </form>
         {this.state.isLoading ? <Loader /> :
