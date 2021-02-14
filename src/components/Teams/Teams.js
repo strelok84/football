@@ -1,8 +1,13 @@
-import React from "react";
+import React from "react"
+import Loader from "../Loader/Loader"
 
+/*
+Список команд лиги. По умолчанию показывается список на 2020 год. Можно вывести список за другой год (если год не поддерживается - выводит "нет данных"). 
+Есть поиск названия команды в списке.
+*/
 class Teams extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoading: true,
       data: [],
@@ -16,19 +21,27 @@ class Teams extends React.Component {
 
   async componentDidMount(year) {
     let id = localStorage.getItem("id") || this.props.location.state.id
+    let teamYear = sessionStorage.getItem("teamYear") || this.state.year
+
     const response = await fetch(
-      `http://api.football-data.org/v2/competitions/${id}/teams?season=${year ? year : 2020}`,
+      `http://api.football-data.org/v2/competitions/${id}/teams?season=${+teamYear ? teamYear : 2020}`,
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-    );
+
+    )
+    if (+teamYear) {
+      window.history.pushState(null, null, "teams?" + teamYear)
+    }
+
 
     if (response.ok) {
-      const data = await response.json();
+      const data = await response.json()
       this.setState({
         isLoading: false,
         data: data.teams,
       })
     } else {
       this.setState({
+        isLoading: false,
         data: [
           {
             id: "Нет данных",
@@ -40,6 +53,11 @@ class Teams extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    sessionStorage.clear()
+  }
+
+  // обработчик перехода на страницу календаря конкретной команды
   handleClick(e, matchid) {
     e.preventDefault()
     localStorage.setItem("matchId", matchid)
@@ -51,6 +69,7 @@ class Teams extends React.Component {
 
   handleChange(event) {
     this.setState({ year: event.target.value })
+    sessionStorage.setItem("teamYear", event.target.value)
   }
 
   handleSubmit(event) {
@@ -70,11 +89,11 @@ class Teams extends React.Component {
       for (let j = 0; j < table.rows[i].cells.length; j++) {
         if (table.rows[i].cells[j].innerHTML === this.state.searchName) {
           table.rows[i].cells[j].style.fontWeight = "bold"
-          table.rows[i].cells[j].style.backgroundColor = "grey"
+          table.rows[i].cells[j].style.backgroundColor = "#808080"
           table.rows[i].scrollIntoView()
         } else {
           table.rows[i].cells[j].style.fontWeight = "normal"
-          table.rows[i].cells[j].style.backgroundColor = "white"
+          table.rows[i].cells[j].style.backgroundColor = "#fff"
         }
       }
     }
@@ -105,45 +124,47 @@ class Teams extends React.Component {
                 type="number"
                 value={this.state.value}
                 onChange={this.handleChange}
-                placeholder="2020"
+                placeholder={sessionStorage.getItem("teamYear") || "2020"}
               />
             </label>
             <input className="btn btn-primary ml-3" type="submit" value="Найти" />
           </div>
         </form>
-
-        <table className="table" id="table">
-          <thead>
-            <tr>
-              <th>Команда</th>
-              <th>Страна</th>
-              <th>Календарь команды</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.area.name}</td>
-                <td>
-                  {this.state.data[0].id != "Нет данных" ? (
-                    <a
-                      href="./teams"
-                      onClick={(e) => this.handleClick(e, item.id)}
-                    >
-                      Календарь команды
-                    </a>
-                  ) : (
-                      "Нет данных"
-                    )}
-                </td>
+        {this.state.isLoading ? <Loader /> :
+          <table className="table" id="table">
+            <thead>
+              <tr>
+                <th>Команда</th>
+                <th>Страна</th>
+                <th>Календарь команды</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.data.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.area.name}</td>
+                  <td>
+                    {this.state.data[0].id !== "Нет данных" ? (
+                      <a
+                        href="./teams"
+                        onClick={(e) => this.handleClick(e, item.id)}
+                      >
+                        Календарь команды
+                      </a>
+                    ) : (
+                        "Нет данных"
+                      )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        }
+
       </div>
-    );
+    )
   }
 }
 
-export default Teams;
+export default Teams

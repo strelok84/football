@@ -5,14 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter } from 'react-router-dom';
-//import { Context } from "context"
+
 
 ReactDOM.render(
-  
+
   <BrowserRouter basename="/football">
-    
     <App />
-   
   </BrowserRouter>,
   document.getElementById('root')
 );
