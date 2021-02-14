@@ -35,6 +35,7 @@ class Table extends React.Component {
       isLoading: false,
       data: data.competitions,
     });
+    sessionStorage.clear()
   }
 
 
