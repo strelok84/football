@@ -83,29 +83,36 @@ class Matches extends React.Component {
   render() {
     return (
       <div className="container">
+        <div className="mt-2 mb-2" >
+          <a className="mr-3" href="https://strelok84.github.io/football/">Главная страница</a>
+          <span>{'\u00B7'}</span>
+          <a href="https://strelok84.github.io/football/teams" className="ml-3 mr-3">Команды лиги</a>
+          <span>{'\u00B7'}</span>
+          <span className="ml-3">Календарь команды</span>
+        </div>
+
         <form className="form-inline mt-3" onSubmit={this.searchDate}>
           <label>
             От:
-          <input
-              className="form-control ml-1"
+           <input
+              className="form-control ml-1 mr-3"
               type="date"
               onChange={this.setDateFrom}
-
             />
           </label>
         </form>
-        <form className="form-inline mt-3 mb-3" onSubmit={this.searchDate}>
+        <form className="form-inline mt-2 mb-3" onSubmit={this.searchDate}>
           <label>
             До:
           <input
-              className="form-control ml-1"
+              className="form-control ml-1 mr-3 "
               type="date"
               onChange={this.setDateTo}
-
             />
           </label>
-          <input className="btn btn-primary m-3" type="submit" value="Найти" />
+          <input className="form-control btn btn-primary" type="submit" value="Найти" />
         </form>
+
         {this.state.isLoading ? <Loader /> :
           <table className="table">
             <thead>

@@ -1,6 +1,7 @@
 import React from "react"
 import Loader from "../Loader/Loader"
 
+
 //главная страница - список всех лиг. На бесплатном аккаунте API доступны только 12 лиг, поэтому оставил только их.
 /*Не очень понятно требование ТЗ иметь на этой странице поиск по году, т.к API запрос ко всем лигам и год не поддерживает
   Да и по смыслу это странно - список лиг, существовавших в определенный год? Так что поиск только по названию лиги.
@@ -27,8 +28,10 @@ class Table extends React.Component {
 
   async componentDidMount(year) {
     const response = await fetch(
-      `https://api.football-data.org/v2/competitions`,
-      { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
+      `https://fathomless-spire-81147.herokuapp.com/https://api.football-data.org/v2/competitions`,
+      
+      { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" }   }
+    
     )
     const data = await response.json();
     this.setState({
@@ -112,6 +115,8 @@ class Table extends React.Component {
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
       <div className="container">
+        
+       
         <form className="form-inline m-3" onSubmit={this.searchBar} >
           <input
             className="form-control"

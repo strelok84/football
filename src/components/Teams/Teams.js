@@ -104,7 +104,9 @@ class Teams extends React.Component {
   render() {
     return (
       <div className="container">
-
+        <div className="mt-2 mb-2" >
+        <a  className="mr-3" href="https://strelok84.github.io/football/">Главная страница</a><span>{'\u00B7'}</span><span className="ml-3">Команды лиги</span>
+        </div>
         <form onSubmit={this.searchBar}>
           <div className="form-group">
             <label>
