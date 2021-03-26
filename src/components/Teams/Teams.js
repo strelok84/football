@@ -12,6 +12,7 @@ class Teams extends React.Component {
       isLoading: true,
       data: [],
       year: 0,
+      searchName:""
     };
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -83,22 +84,25 @@ class Teams extends React.Component {
 
   searchBar(event) {
     event.preventDefault();
-    let table = document.getElementById("table")
-
+    const searchName = this.state.searchName;
+    if (!searchName.match(/\S/)) {
+      return alert("Введите название или часть названия");
+    }
+    const table = document.getElementById("table");
+    let reg = new RegExp(searchName, "gi");
+    let found = false;
     for (let i = 1; i < table.rows.length; i++) {
-      for (let j = 0; j < table.rows[i].cells.length; j++) {
-        if (table.rows[i].cells[j].innerHTML === this.state.searchName) {
-          table.rows[i].cells[j].style.fontWeight = "bold"
-          table.rows[i].cells[j].style.backgroundColor = "#808080"
-          table.rows[i].scrollIntoView()
-        } else {
-          table.rows[i].cells[j].style.fontWeight = "normal"
-          table.rows[i].cells[j].style.backgroundColor = "#fff"
-        }
+      if (reg.test(table.rows[i].cells[0].innerHTML)) {
+        found = true;
+        table.rows[i].cells[0].className += " foundCell";
+        table.rows[i].scrollIntoView();
+      } else {
+        table.rows[i].cells[0].classList.remove("foundCell");
       }
     }
-
-
+    if (!found) {
+      alert("Такой лиги в списке нет. Введите название или часть названия.");
+    }
   }
 
   render() {

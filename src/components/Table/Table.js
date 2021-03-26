@@ -1,6 +1,5 @@
-import React from "react"
-import Loader from "../Loader/Loader"
-
+import React from "react";
+import Loader from "../Loader/Loader";
 
 //главная страница - список всех лиг. На бесплатном аккаунте API доступны только 12 лиг, поэтому оставил только их.
 /*Не очень понятно требование ТЗ иметь на этой странице поиск по году, т.к API запрос ко всем лигам и год не поддерживает
@@ -21,7 +20,6 @@ class Table extends React.Component {
     this.searchName = this.searchName.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.matchesOfLigue = this.matchesOfLigue.bind(this);
-
   }
 
   //Асинхронный запрос к football-data.org списка всех лиг
@@ -29,26 +27,23 @@ class Table extends React.Component {
   async componentDidMount(year) {
     const response = await fetch(
       `https://fathomless-spire-81147.herokuapp.com/https://api.football-data.org/v2/competitions`,
-      
-      { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" }   }
-    
-    )
+
+      { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
+    );
     const data = await response.json();
     this.setState({
       isLoading: false,
       data: data.competitions,
     });
-    sessionStorage.clear()
+    sessionStorage.clear();
   }
-
-
 
   /*обработчик клика по строке "команды лиги", localstorage нужен ибо gh-pages криво работает с роутингом SPA (при обновлении страницы вываливаются в 404), 
   на нормальном хостинге это не нужно*/
 
   handleClick(e, id) {
     e.preventDefault();
-    localStorage.setItem("id", id)
+    localStorage.setItem("id", id);
     this.props.history.push({
       pathname: "/teams",
       state: { id: id },
@@ -59,7 +54,7 @@ class Table extends React.Component {
 
   matchesOfLigue(e, ligueId) {
     e.preventDefault();
-    localStorage.setItem("ligueId", ligueId)
+    localStorage.setItem("ligueId", ligueId);
 
     this.props.history.push({
       pathname: "/matchesOfLigue",
@@ -70,30 +65,33 @@ class Table extends React.Component {
   //обработчик введенного пользователем значения названия лиги в строке поиска
 
   searchName(event) {
-    this.setState({ searchName: event.target.value })
-
+    this.setState({ searchName: event.target.value });
   }
 
-  //введенное пользователем имя лиги ищется в таблице и выделяется, экран прокручивается до выделенного значения
+  /*введенное пользователем имя лиги ищется в ячейках с названиями по регулярному выражению.
+  Совпадения выделяются, экран прокручивается до выделенного значения*/
 
   searchBar(event) {
     event.preventDefault();
-    let table = document.getElementById("table");
-
+    const searchName = this.state.searchName;
+    if (!searchName.match(/\S/)) {
+      return alert("Введите название или часть названия");
+    }
+    const table = document.getElementById("table");
+    let reg = new RegExp(searchName, "gi");
+    let found = false;
     for (let i = 1; i < table.rows.length; i++) {
-      for (let j = 0; j < table.rows[i].cells.length; j++) {
-        if (table.rows[i].cells[j].innerHTML === (this.state.searchName)) {
-          table.rows[i].cells[j].style.fontWeight = "bold";
-          table.rows[i].cells[j].style.backgroundColor = "#808080";
-          table.rows[i].scrollIntoView();
-        } else {
-          table.rows[i].cells[j].style.fontWeight = "normal";
-          table.rows[i].cells[j].style.backgroundColor = "#fff";
-        }
+      if (reg.test(table.rows[i].cells[0].innerHTML)) {
+        found = true;
+        table.rows[i].cells[0].className += " foundCell";
+        table.rows[i].scrollIntoView();
+      } else {
+        table.rows[i].cells[0].classList.remove("foundCell");
       }
     }
-
-
+    if (!found) {
+      alert("Такой лиги в списке нет. Введите название или часть названия.");
+    }
   }
 
   render() {
@@ -115,9 +113,7 @@ class Table extends React.Component {
     let hidden = <td className="hiddenTd">Недоступно</td>;
     return (
       <div className="container">
-        
-       
-        <form className="form-inline m-3" onSubmit={this.searchBar} >
+        <form className="form-inline m-3" onSubmit={this.searchBar}>
           <input
             className="form-control"
             type="search"
@@ -126,8 +122,11 @@ class Table extends React.Component {
           />
           <input type="submit" className="btn btn-primary m-3" value="Найти" />
         </form>
-        {/*  Лоадер крутится пока подгружаются данные. Ф-ия берет данные формирует таблицу. Поля не из бесплатных id скрываются */}
-        {this.state.isLoading ? <Loader /> :
+        {/*  Лоадер крутится пока подгружаются данные. Ф-ия берет данные формирует таблицу. Поля не из бесплатных id скрываются.
+        В качестве key для map используется id лиги или команды. Они уникальные */}
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
           <table className="table" id="table">
             <thead>
               <tr>
@@ -147,11 +146,11 @@ class Table extends React.Component {
                         onClick={(e) => this.handleClick(e, item.id)}
                       >
                         Команды лиги
-                  </a>
+                      </a>
                     </td>
                   ) : (
-                      hidden
-                    )}
+                    hidden
+                  )}
                   {freeLigues.includes(item.id) ? (
                     <td>
                       <a
@@ -159,19 +158,18 @@ class Table extends React.Component {
                         onClick={(e) => this.matchesOfLigue(e, item.id)}
                       >
                         Календарь лиги
-                  </a>
+                      </a>
                     </td>
                   ) : (
-                      hidden
-                    )}
+                    hidden
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
-        }
-
+        )}
       </div>
-    )
+    );
   }
 }
 //Остальные компоненты устроены примерно аналогично
