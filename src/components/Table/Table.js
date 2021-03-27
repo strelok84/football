@@ -7,20 +7,13 @@ import Loader from "../Loader/Loader";
 */
 
 class Table extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      data: [],
-      id: 0,
-      year: "",
-      searchName: "",
-    };
-    this.searchBar = this.searchBar.bind(this);
-    this.searchName = this.searchName.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.matchesOfLigue = this.matchesOfLigue.bind(this);
-  }
+  state = {
+    isLoading: true,
+    data: [],
+    id: 0,
+    year: "",
+    searchName: "",
+  };
 
   //Асинхронный запрос к football-data.org списка всех лиг
 
@@ -41,8 +34,8 @@ class Table extends React.Component {
   /*обработчик клика по строке "команды лиги", localstorage нужен ибо gh-pages криво работает с роутингом SPA (при обновлении страницы вываливаются в 404), 
   на нормальном хостинге это не нужно*/
 
-  handleClick(e, id) {
-    e.preventDefault();
+  handleClick(event, id) {
+    event.preventDefault();
     localStorage.setItem("id", id);
     this.props.history.push({
       pathname: "/teams",
@@ -52,8 +45,8 @@ class Table extends React.Component {
 
   // клик по строке "календарь лиги"
 
-  matchesOfLigue(e, ligueId) {
-    e.preventDefault();
+  matchesOfLigue(event, ligueId) {
+    event.preventDefault();
     localStorage.setItem("ligueId", ligueId);
 
     this.props.history.push({
@@ -64,14 +57,16 @@ class Table extends React.Component {
 
   //обработчик введенного пользователем значения названия лиги в строке поиска
 
-  searchName(event) {
-    this.setState({ searchName: event.target.value });
-  }
+  searchName = (event) => {
+    this.setState((prevState) => ({
+      searchName: event.target.value,
+    }));
+  };
 
   /*введенное пользователем имя лиги ищется в ячейках с названиями по регулярному выражению.
   Совпадения выделяются, экран прокручивается до выделенного значения*/
 
-  searchBar(event) {
+  searchBar = (event) => {
     event.preventDefault();
     const searchName = this.state.searchName;
     if (!searchName.match(/\S/)) {
@@ -92,11 +87,11 @@ class Table extends React.Component {
     if (!found) {
       alert("Такой лиги в списке нет. Введите название или часть названия.");
     }
-  }
+  };
 
   render() {
     //id доступных лиг
-    let freeLigues = [
+    const freeLigues = [
       2001,
       2017,
       2021,
@@ -123,7 +118,7 @@ class Table extends React.Component {
           <input type="submit" className="btn btn-primary m-3" value="Найти" />
         </form>
         {/*  Лоадер крутится пока подгружаются данные. Ф-ия берет данные формирует таблицу. Поля не из бесплатных id скрываются.
-        В качестве key для map используется id лиги или команды. Они уникальные */}
+        В качестве key для map используется id лиги или команды.*/}
         {this.state.isLoading ? (
           <Loader />
         ) : (

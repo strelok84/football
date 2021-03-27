@@ -6,20 +6,13 @@ import Loader from "../Loader/Loader"
 Есть поиск названия команды в списке.
 */
 class Teams extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-      data: [],
-      year: 0,
-      searchName:""
-    };
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.searchBar = this.searchBar.bind(this)
-    this.searchName = this.searchName.bind(this)
-  }
-
+  
+  state = {
+    isLoading: true,
+    data: [],
+    year: 0,
+    searchName:""
+  };
   async componentDidMount(year) {
     let id = localStorage.getItem("id") || this.props.location.state.id
     let teamYear = sessionStorage.getItem("teamYear") || this.state.year
@@ -68,21 +61,21 @@ class Teams extends React.Component {
     })
   }
 
-  handleChange(event) {
+  handleChange=(event)=> {
     this.setState({ year: event.target.value })
     sessionStorage.setItem("teamYear", event.target.value)
   }
 
-  handleSubmit(event) {
+  handleSubmit=(event)=> {
     event.preventDefault();
     this.componentDidMount(this.state.year)
   }
 
-  searchName(event) {
+  searchName=(event)=> {
     this.setState({ searchName: event.target.value })
   }
 
-  searchBar(event) {
+  searchBar=(event)=> {
     event.preventDefault();
     const searchName = this.state.searchName;
     if (!searchName.match(/\S/)) {
