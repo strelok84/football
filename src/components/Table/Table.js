@@ -16,13 +16,17 @@ class Table extends React.Component {
   };
 
   //Асинхронный запрос к football-data.org списка всех лиг
-
+  request=(url)=>{
+    return fetch(url,{ headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } })
+  }
   async componentDidMount(year) {
-    const response = await fetch(
+    const url=`https://fathomless-spire-81147.herokuapp.com/https://api.football-data.org/v2/competitions`
+    const response=await this.request(url)
+    /* const response = await fetch(
       `https://fathomless-spire-81147.herokuapp.com/https://api.football-data.org/v2/competitions`,
 
       { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-    );
+    ); */
     const data = await response.json();
     this.setState({
       isLoading: false,
@@ -30,7 +34,7 @@ class Table extends React.Component {
     });
     sessionStorage.clear();
   }
-
+  
   /*обработчик клика по строке "команды лиги", localstorage нужен ибо gh-pages криво работает с роутингом SPA (при обновлении страницы вываливаются в 404), 
   на нормальном хостинге это не нужно*/
 
