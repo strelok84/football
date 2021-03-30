@@ -15,6 +15,7 @@ class Matches extends React.Component {
     dateFrom: "",
     dateTo: "",
   };
+
   async componentDidMount() {
     let response;
     let matchid =
@@ -22,22 +23,18 @@ class Matches extends React.Component {
     let dateTo = sessionStorage.getItem("teamDateTo") || this.state.dateTo;
     let dateFrom =
       sessionStorage.getItem("teamDateFrom") || this.state.dateFrom;
+    const url = `https://api.football-data.org/v2/teams/${matchid}/matches?`;
+
     if (!dateFrom && !dateTo) {
-      response = await fetch(
-        `https://api.football-data.org/v2/teams/${matchid}/matches?status=SCHEDULED`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-      );
+      response = await this.request(`${url}status=SCHEDULED`);
     } else if ((!dateFrom && dateTo) || (dateFrom && !dateTo)) {
       alert("Нужно ввести обе даты");
-      response = await fetch(
-        `https://api.football-data.org/v2/teams/${matchid}/matches?status=SCHEDULED`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-      );
+      response = await this.request(`${url}status=SCHEDULED`);
     } else {
-      response = await fetch(
-        `https://api.football-data.org/v2/teams/${matchid}/matches?dateTo=${dateTo}&dateFrom=${dateFrom}`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
+      response = await this.request(
+        `${url}dateTo=${dateTo}&dateFrom=${dateFrom}`
       );
+
       window.history.pushState(
         null,
         null,
@@ -70,6 +67,12 @@ class Matches extends React.Component {
   componentWillUnmount() {
     sessionStorage.clear();
   }
+
+  request = (url) => {
+    return fetch(url, {
+      headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" },
+    });
+  };
 
   setDateFrom = (event) => {
     this.setState({ dateFrom: event.target.value });

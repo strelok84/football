@@ -12,28 +12,24 @@ class MatchesOfLigue extends React.Component {
     dateFrom: "",
     dateTo: "",
   };
+
   async componentDidMount() {
     let id =
       localStorage.getItem("ligueId") || this.props.location.state.ligueId;
     let dateTo = sessionStorage.getItem("dateTo") || this.state.dateTo;
     let dateFrom = sessionStorage.getItem("dateFrom") || this.state.dateFrom;
     let response;
+    const url = `https://api.football-data.org/v2/competitions/${id}/matches?`;
     if (!dateFrom && !dateTo) {
-      response = await fetch(
-        `https://api.football-data.org/v2/competitions/${id}/matches?status=SCHEDULED`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-      );
+      response = await this.request(`${url}status=SCHEDULED`);
     } else if ((!dateFrom && dateTo) || (dateFrom && !dateTo)) {
       alert("Нужно ввести обе даты");
-      response = await fetch(
-        `https://api.football-data.org/v2/competitions/${id}/matches?status=SCHEDULED`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
-      );
+      response = await this.request(`${url}status=SCHEDULED`);
     } else {
-      response = await fetch(
-        `https://api.football-data.org/v2/competitions/${id}/matches?dateTo=${dateTo}&dateFrom=${dateFrom}`,
-        { headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" } }
+      response = await this.request(
+        `${url}dateTo=${dateTo}&dateFrom=${dateFrom}`
       );
+
       window.history.pushState(
         null,
         null,
@@ -51,6 +47,12 @@ class MatchesOfLigue extends React.Component {
 
   componentWillUnmount = () => {
     sessionStorage.clear();
+  };
+
+  request = (url) => {
+    return fetch(url, {
+      headers: { "X-Auth-Token": "a3b3685ba5fd4c8685be0540c85652f2" },
+    });
   };
 
   setDateFrom = (event) => {

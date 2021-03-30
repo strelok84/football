@@ -1,22 +1,45 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.hiddenTd{
-  display:none;
+.hiddenTd {
+  display: none;
 }
-.foundCell{
+.foundCell {
   background-color: #808080;
   font-weight: bold;
 }
 
-
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-rows: 1fr 1fr;
+}
+.teamName {
+  grid-column: 0/1;
+  grid-row: 2/3;
+}
+.teamYear {
+  grid-column: 0/1;
+  grid-row: 1/1;
+}
+.ligueName {
+  grid-column: 2/-1;
+  grid-row: 1/-1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ligueName h1 {
+  display: table-cell;
+  vertical-align: middle;
+}
