@@ -9,7 +9,7 @@ class Teams extends React.Component {
   state = {
     isLoading: true,
     data: [],
-    year: 0,
+    year: 2020,
     searchName: "",
     name: "",
   };
@@ -39,8 +39,8 @@ class Teams extends React.Component {
         data: [
           {
             id: "Нет данных",
-            name: "Нет данных",
-            area: { name: "Доступны данные только за 750 дней" },
+            name: `За ${this.state.year} год данных нет`,
+            area: { name: "Если чемпионат не ежегодный - попробуйте год проведения" },
           },
         ],
       });
@@ -182,7 +182,7 @@ class Teams extends React.Component {
                         Календарь команды
                       </a>
                     ) : (
-                      "Доступны данные только за 750 дней"
+                      "По ежегодным чемпионатам доступны данные за 750 дней"
                     )}
                   </td>
                 </tr>
