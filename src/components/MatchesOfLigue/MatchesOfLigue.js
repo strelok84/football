@@ -15,10 +15,10 @@ class MatchesOfLigue extends React.Component {
   };
 
   async componentDidMount() {
-    let id =
+    const id =
       localStorage.getItem("ligueId") || this.props.location.state.ligueId;
-    let dateTo = sessionStorage.getItem("dateTo") || this.state.dateTo;
-    let dateFrom = sessionStorage.getItem("dateFrom") || this.state.dateFrom;
+    const dateTo = sessionStorage.getItem("dateTo") || this.state.dateTo;
+    const dateFrom = sessionStorage.getItem("dateFrom") || this.state.dateFrom;
     let response;
     const url = `https://api.football-data.org/v2/competitions/${id}/matches?`;
     if (!dateFrom && !dateTo) {

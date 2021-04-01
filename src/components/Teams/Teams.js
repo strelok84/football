@@ -15,8 +15,8 @@ class Teams extends React.Component {
   };
 
   async componentDidMount(year) {
-    let id = localStorage.getItem("id") || this.props.location.state.id;
-    let teamYear = sessionStorage.getItem("teamYear") || this.state.year;
+    const id = localStorage.getItem("id") || this.props.location.state.id;
+    const teamYear = sessionStorage.getItem("teamYear") || this.state.year;
     const url = `http://api.football-data.org/v2/competitions/${id}/teams?season=${
       +teamYear ? teamYear : 2020
     }`;
@@ -89,7 +89,7 @@ class Teams extends React.Component {
       return alert("Введите название или часть названия");
     }
     const table = document.getElementById("table");
-    let reg = new RegExp(searchName, "gi");
+    const reg = new RegExp(searchName, "gi");
     let found = false;
     for (let i = 1; i < table.rows.length; i++) {
       if (reg.test(table.rows[i].cells[0].innerHTML)) {

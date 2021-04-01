@@ -74,7 +74,7 @@ class Table extends React.Component {
       return alert("Введите название или часть названия");
     }
     const table = document.getElementById("table");
-    let reg = new RegExp(searchName, "gi");
+    const reg = new RegExp(searchName, "gi");
     let found = false;
     for (let i = 1; i < table.rows.length; i++) {
       if (reg.test(table.rows[i].cells[0].innerHTML)) {

@@ -19,11 +19,11 @@ class Matches extends React.Component {
 
   async componentDidMount() {
     let response;
-    let matchid =
+    const matchid =
       localStorage.getItem("matchId") || this.props.location.state.matchId;
 
-    let dateTo = sessionStorage.getItem("teamDateTo") || this.state.dateTo;
-    let dateFrom =
+    const dateTo = sessionStorage.getItem("teamDateTo") || this.state.dateTo;
+    const dateFrom =
       sessionStorage.getItem("teamDateFrom") || this.state.dateFrom;
     this.state.teamName =
       localStorage.getItem("teamName") || this.props.location.state.teamName;
