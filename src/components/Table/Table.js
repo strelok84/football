@@ -39,7 +39,6 @@ class Table extends React.Component {
   handleClick(event, id) {
     event.preventDefault();
     localStorage.setItem("id", id);
-    
     this.props.history.push({
       pathname: "/teams",
       state: { id: id },

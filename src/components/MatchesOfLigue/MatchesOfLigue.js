@@ -11,6 +11,7 @@ class MatchesOfLigue extends React.Component {
     data: [],
     dateFrom: "",
     dateTo: "",
+    name:""
   };
 
   async componentDidMount() {
@@ -38,10 +39,11 @@ class MatchesOfLigue extends React.Component {
     }
 
     const data = await response.json();
-
+    console.log(data)
     this.setState({
       isLoading: false,
       data: data.matches,
+      name:data.competition.name
     });
   }
 
@@ -78,7 +80,7 @@ class MatchesOfLigue extends React.Component {
           <span>{"\u00B7"}</span>
           <span className="ml-3">Календарь лиги</span>
         </div>
-
+        <div className="grid">
         <form className="form-inline mt-3" onSubmit={this.searchDate}>
           <label>
             От:
@@ -104,7 +106,10 @@ class MatchesOfLigue extends React.Component {
             value="Найти"
           />
         </form>
-
+        <div className="ligueName">
+    <h1>{this.state.name}</h1>
+        </div>
+        </div>
         {this.state.isLoading ? (
           <Loader />
         ) : (

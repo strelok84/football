@@ -14,15 +14,19 @@ class Matches extends React.Component {
     data: [],
     dateFrom: "",
     dateTo: "",
+    teamName: "",
   };
 
   async componentDidMount() {
     let response;
     let matchid =
       localStorage.getItem("matchId") || this.props.location.state.matchId;
+
     let dateTo = sessionStorage.getItem("teamDateTo") || this.state.dateTo;
     let dateFrom =
       sessionStorage.getItem("teamDateFrom") || this.state.dateFrom;
+    this.state.teamName =
+      localStorage.getItem("teamName") || this.props.location.state.teamName;
     const url = `https://api.football-data.org/v2/teams/${matchid}/matches?`;
 
     if (!dateFrom && !dateTo) {
@@ -38,7 +42,7 @@ class Matches extends React.Component {
       window.history.pushState(
         null,
         null,
-        "matches?" + dateFrom + "--" + dateTo
+        "matchesOfTeam?" + dateFrom + "--" + dateTo
       );
     }
 
@@ -105,33 +109,36 @@ class Matches extends React.Component {
           <span>{"\u00B7"}</span>
           <span className="ml-3">Календарь команды</span>
         </div>
-
-        <form className="form-inline mt-3" onSubmit={this.searchDate}>
-          <label>
-            От:
+        <div className="grid">
+          <form className="form-inline mt-3" onSubmit={this.searchDate}>
+            <label>
+              От:
+              <input
+                className="form-control ml-1 mr-3"
+                type="date"
+                onChange={this.setDateFrom}
+              />
+            </label>
+          </form>
+          <form className="form-inline mt-2 mb-3" onSubmit={this.searchDate}>
+            <label>
+              До:
+              <input
+                className="form-control ml-1 mr-3 "
+                type="date"
+                onChange={this.setDateTo}
+              />
+            </label>
             <input
-              className="form-control ml-1 mr-3"
-              type="date"
-              onChange={this.setDateFrom}
+              className="form-control btn btn-primary"
+              type="submit"
+              value="Найти"
             />
-          </label>
-        </form>
-        <form className="form-inline mt-2 mb-3" onSubmit={this.searchDate}>
-          <label>
-            До:
-            <input
-              className="form-control ml-1 mr-3 "
-              type="date"
-              onChange={this.setDateTo}
-            />
-          </label>
-          <input
-            className="form-control btn btn-primary"
-            type="submit"
-            value="Найти"
-          />
-        </form>
-
+          </form>
+          <div className="ligueName">
+            <h1>{this.state.teamName}</h1>
+          </div>
+        </div>
         {this.state.isLoading ? (
           <Loader />
         ) : (

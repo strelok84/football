@@ -25,21 +25,20 @@ code {
   grid-template-rows: 1fr 1fr;
 }
 .teamName {
-  grid-column: 0/1;
+  grid-column: 1/2;
   grid-row: 2/3;
 }
 .teamYear {
-  grid-column: 0/1;
+  grid-column: 1/2;
   grid-row: 1/1;
 }
 .ligueName {
-  grid-column: 2/-1;
+  grid-column: 2/3;
   grid-row: 1/-1;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 .ligueName h1 {
-  display: table-cell;
-  vertical-align: middle;
+  margin-left: 1rem;
 }

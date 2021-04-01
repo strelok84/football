@@ -12,6 +12,7 @@ class App extends Component {
         <Switch>
           <Route path="/matchesOfLigue" component={MatchesOfLigue} />
           <Route path="/matchesOfLigue/:ligueId" component={MatchesOfLigue} />
+          <Route path="/matchesOfTeam/:matchid" component={MatchesOfTeam} />
           <Route path="/matchesOfTeam" component={MatchesOfTeam} />
           <Route path="/teams" component={Teams} />
           <Route exact path="/" component={Table} />

@@ -58,12 +58,13 @@ class Teams extends React.Component {
   };
 
   // обработчик перехода на страницу календаря конкретной команды
-  handleClick(e, matchid) {
+  handleClick(e, matchid, teamName) {
     e.preventDefault();
     localStorage.setItem("matchId", matchid);
+    localStorage.setItem("teamName", teamName);
     this.props.history.push({
       pathname: "/matchesOfTeam",
-      state: { matchid: matchid },
+      state: { matchid: matchid, teamName:teamName },
     });
   }
 
@@ -177,7 +178,7 @@ class Teams extends React.Component {
                     {this.state.data[0].id !== "Нет данных" ? (
                       <a
                         href="./teams"
-                        onClick={(e) => this.handleClick(e, item.id)}
+                        onClick={(e) => this.handleClick(e, item.id,item.name)}
                       >
                         Календарь команды
                       </a>
