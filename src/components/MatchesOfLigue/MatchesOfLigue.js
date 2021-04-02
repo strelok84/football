@@ -11,7 +11,7 @@ class MatchesOfLigue extends React.Component {
     data: [],
     dateFrom: "",
     dateTo: "",
-    name:""
+    name: "",
   };
 
   async componentDidMount() {
@@ -39,11 +39,11 @@ class MatchesOfLigue extends React.Component {
     }
 
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     this.setState({
       isLoading: false,
       data: data.matches,
-      name:data.competition.name
+      name: data.competition.name,
     });
   }
 
@@ -81,34 +81,34 @@ class MatchesOfLigue extends React.Component {
           <span className="ml-3">Календарь лиги</span>
         </div>
         <div className="grid">
-        <form className="form-inline mt-3" onSubmit={this.searchDate}>
-          <label>
-            От:
+          <form className="form-inline mt-3" onSubmit={this.searchDate}>
+            <label>
+              От:
+              <input
+                className="form-control ml-1 mr-3"
+                type="date"
+                onChange={this.setDateFrom}
+              />
+            </label>
+          </form>
+          <form className="form-inline mt-2 mb-3" onSubmit={this.searchDate}>
+            <label>
+              До:
+              <input
+                className="form-control ml-1 mr-3 "
+                type="date"
+                onChange={this.setDateTo}
+              />
+            </label>
             <input
-              className="form-control ml-1 mr-3"
-              type="date"
-              onChange={this.setDateFrom}
+              className="form-control btn btn-primary"
+              type="submit"
+              value="Найти"
             />
-          </label>
-        </form>
-        <form className="form-inline mt-2 mb-3" onSubmit={this.searchDate}>
-          <label>
-            До:
-            <input
-              className="form-control ml-1 mr-3 "
-              type="date"
-              onChange={this.setDateTo}
-            />
-          </label>
-          <input
-            className="form-control btn btn-primary"
-            type="submit"
-            value="Найти"
-          />
-        </form>
-        <div className="ligueName">
-    <h1>{this.state.name}</h1>
-        </div>
+          </form>
+          <div className="ligueName">
+            <h1>{this.state.name}</h1>
+          </div>
         </div>
         {this.state.isLoading ? (
           <Loader />

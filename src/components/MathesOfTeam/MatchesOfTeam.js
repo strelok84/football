@@ -82,6 +82,7 @@ class Matches extends React.Component {
     this.setState({ dateFrom: event.target.value });
     sessionStorage.setItem("teamDateFrom", event.target.value);
   };
+
   setDateTo = (event) => {
     this.setState({ dateTo: event.target.value });
     sessionStorage.setItem("teamDateTo", event.target.value);

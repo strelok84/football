@@ -40,7 +40,9 @@ class Teams extends React.Component {
           {
             id: "Нет данных",
             name: `За ${this.state.year} год данных нет`,
-            area: { name: "Если чемпионат не ежегодный - попробуйте год проведения" },
+            area: {
+              name: "Если чемпионат не ежегодный - попробуйте год проведения",
+            },
           },
         ],
       });
@@ -64,7 +66,7 @@ class Teams extends React.Component {
     localStorage.setItem("teamName", teamName);
     this.props.history.push({
       pathname: "/matchesOfTeam",
-      state: { matchid: matchid, teamName:teamName },
+      state: { matchid: matchid, teamName: teamName },
     });
   }
 
@@ -178,7 +180,7 @@ class Teams extends React.Component {
                     {this.state.data[0].id !== "Нет данных" ? (
                       <a
                         href="./teams"
-                        onClick={(e) => this.handleClick(e, item.id,item.name)}
+                        onClick={(e) => this.handleClick(e, item.id, item.name)}
                       >
                         Календарь команды
                       </a>
