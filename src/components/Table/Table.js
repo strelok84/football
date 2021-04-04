@@ -1,5 +1,6 @@
 import React from "react";
 import Loader from "../Loader/Loader";
+import {FREELIGUES} from "../../constants/const"
 
 //главная страница - список всех лиг. На бесплатном аккаунте API доступны только 12 лиг, поэтому оставил только их.
 /*Не очень понятно требование ТЗ иметь на этой странице поиск по году, т.к API запрос ко всем лигам + год не поддерживает
@@ -91,22 +92,6 @@ class Table extends React.Component {
   };
 
   render() {
-    //id доступных лиг
-    const freeLigues = [
-      2001,
-      2017,
-      2021,
-      2003,
-      2002,
-      2015,
-      2019,
-      2014,
-      2016,
-      2013,
-      2000,
-      2018,
-    ];
-
     return (
       <div className="container">
         <form className="form-inline m-3" onSubmit={this.searchBar}>
@@ -134,12 +119,12 @@ class Table extends React.Component {
             <tbody>
               {this.state.data.map((item) => (
                 <tr key={item.id}>
-                  {freeLigues.includes(item.id) ? (
+                  {FREELIGUES.includes(item.id) ? (
                     <td>{item.name}</td>
                   ) : (
                     <td className="hiddenTd">Недоступно</td>
                   )}
-                  {freeLigues.includes(item.id) ? (
+                  {FREELIGUES.includes(item.id) ? (
                     <td>
                       <a
                         href="./teams"
@@ -151,7 +136,7 @@ class Table extends React.Component {
                   ) : (
                     <td className="hiddenTd">Недоступно</td>
                   )}
-                  {freeLigues.includes(item.id) ? (
+                  {FREELIGUES.includes(item.id) ? (
                     <td>
                       <a
                         href="./matchesOfLigue"
